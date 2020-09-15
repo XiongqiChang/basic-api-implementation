@@ -42,10 +42,9 @@ class RsControllerTest {
 
     @Test
     void should_get_rsEvent_by_index() throws Exception {
-        mockMvc.perform(get("/rs/list/1"))
-                .andExpect(jsonPath("$",hasSize(1)))
-                .andExpect(jsonPath("$[0].eventName",is("第一条事件")))
-                .andExpect(jsonPath("$[0].keyWord",is("无标签")))
+        mockMvc.perform(get("/rs/1"))
+                .andExpect(jsonPath("$.eventName",is("第一条事件")))
+                .andExpect(jsonPath("$.keyWord",is("无标签")))
                 .andExpect(status().isOk());
     }
 
