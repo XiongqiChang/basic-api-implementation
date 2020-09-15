@@ -18,6 +18,7 @@ public class RsEvent {
         this.keyWord = keyWord;
     }
 
+
     public RsEvent(){
 
     }
