@@ -48,4 +48,16 @@ class RsControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void should_get_rsEvent_between_start_and_end() throws Exception {
+        mockMvc.perform(get("/rs/list?start=1&end=2"))
+                .andExpect(jsonPath("$",hasSize(2)))
+                .andExpect(jsonPath("$[0].eventName",is("第一条事件")))
+                .andExpect(jsonPath("$[0].keyWord",is("无标签")))
+                .andExpect(jsonPath("$[1].eventName",is("第二条事件")))
+                .andExpect(jsonPath("$[1].keyWord",is("无标签")))
+                .andExpect(status().isOk());
+    }
+
+
 }

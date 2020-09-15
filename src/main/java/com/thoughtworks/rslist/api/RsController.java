@@ -3,6 +3,7 @@ package com.thoughtworks.rslist.api;
 import com.thoughtworks.rslist.domain.RsEvent;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.List;
 public class RsController {
 
 
-   List<RsEvent> rsEventList = initRsEvent();
+   private List<RsEvent> rsEventList = initRsEvent();
   private  List<RsEvent> initRsEvent(){
    List<RsEvent> rsList = new ArrayList<>();
     rsList.add(new RsEvent("第一条事件","无标签"));
@@ -22,8 +23,13 @@ public class RsController {
   }
 
   @GetMapping("/rs/list")
-  public  List<RsEvent> getRsEventList(){
-     return  rsEventList;
+  public  List<RsEvent> getRsEventList(@RequestParam(value = "start",required = false)Integer start,
+                                       @RequestParam(value = "end",required = false)Integer end){
+    if (start == null || end ==  null){
+      return rsEventList;
+    }
+    //subList这个方法是左闭右开的
+    return  rsEventList.subList(start-1,end);
   }
 
 
