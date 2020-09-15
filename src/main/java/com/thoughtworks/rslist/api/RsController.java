@@ -3,16 +3,16 @@ package com.thoughtworks.rslist.api;
 import com.thoughtworks.rslist.domain.RsEvent;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class RsController {
 
-
-   private List<RsEvent> rsEventList = initRsEvent();
-  private  List<RsEvent> initRsEvent(){
-   List<RsEvent> rsList = new ArrayList<>();
+    private List<RsEvent> rsEventList = initRsEvent();
+    private  List<RsEvent> initRsEvent(){
+    List<RsEvent> rsList = new ArrayList<>();
     rsList.add(new RsEvent("第一条事件","无标签"));
     rsList.add(new RsEvent("第二条事件","无标签"));
     rsList.add(new RsEvent("第三条事件","无标签"));
@@ -56,6 +56,11 @@ public class RsController {
         if (keyWord != null){
             rsEvent1.setKeyWord(keyWord);
         }
+    }
+
+    @DeleteMapping("/rs/delete/{index}")
+    public void deleteRsEvent(@PathVariable Integer index){
+         rsEventList.remove(index - 1);
     }
 
 
