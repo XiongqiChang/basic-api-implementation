@@ -14,8 +14,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -31,6 +30,8 @@ class RsControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    private   ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     void should_get_rsEvent_all() throws Exception {
@@ -67,22 +68,36 @@ class RsControllerTest {
     @Test
     void should_add_rsEvent() throws Exception {
         RsEvent rsEvent = new RsEvent("小猪佩奇","动画片");
-        ObjectMapper objectMapper = new ObjectMapper();
+
         String jsonString = objectMapper.writeValueAsString(rsEvent);
         mockMvc.perform(post("/rs/add").content(jsonString).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void should_update_rsEvent_byId(){
-
+    void should_update_rsEvent_byId() throws Exception {
+        RsEvent rsEvent = new RsEvent("猪肉涨价","经济");
+        String jsonString = objectMapper.writeValueAsString(rsEvent);
+        mockMvc.perform(post("/rs/update/1").content(jsonString).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/rs/1"))
+                .andExpect(jsonPath("$.eventName",is("猪肉涨价")))
+                .andExpect(jsonPath("$.keyWord",is("经济")))
+                .andExpect(status().isOk());
 
     }
 
 
     @Test
-    void should_delete_rsEvent_byIndex(){
-
+    void should_delete_rsEvent_byIndex() throws Exception {
+        mockMvc.perform(delete("/rs/delete/1")).andExpect(status().isOk());
+        mockMvc.perform(get("/rs/list"))
+                .andExpect(jsonPath("$",hasSize(2)))
+                .andExpect(jsonPath("$[0].eventName",is("第二条事件")))
+                .andExpect(jsonPath("$[0].keyWord",is("无标签")))
+                .andExpect(jsonPath("$[1].eventName",is("第三条事件")))
+                .andExpect(jsonPath("$[1].keyWord",is("无标签")))
+                .andExpect(status().isOk());
     }
 
 

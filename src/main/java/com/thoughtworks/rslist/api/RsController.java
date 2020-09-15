@@ -30,17 +30,32 @@ public class RsController {
   }
 
 
-  @GetMapping("/rs/{index}")
-  public RsEvent getRsEventByIndex(@PathVariable(value = "index") Integer id){
+   @GetMapping("/rs/{index}")
+   public RsEvent getRsEventByIndex(@PathVariable(value = "index") Integer id){
     return rsEventList.get(id - 1);
-  }
+   }
 
 
-    @PostMapping("/rs/add")
-    public void addRsEvent(@RequestBody RsEvent rsEvent){
+   @PostMapping("/rs/add")
+   public void addRsEvent(@RequestBody RsEvent rsEvent){
 
       rsEventList.add(rsEvent);
 
+    }
+
+    @PostMapping("/rs/update/{index}")
+    public void updateRsEvent(@PathVariable Integer index,
+                              @RequestBody RsEvent rsEvent){
+
+        RsEvent rsEvent1 = rsEventList.get(index - 1);
+        String eventName = rsEvent.getEventName();
+        String keyWord = rsEvent.getKeyWord();
+        if (eventName != null){
+            rsEvent1.setEventName(eventName);
+        }
+        if (keyWord != null){
+            rsEvent1.setKeyWord(keyWord);
+        }
     }
 
 
