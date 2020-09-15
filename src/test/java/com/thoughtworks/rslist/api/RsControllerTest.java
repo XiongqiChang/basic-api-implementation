@@ -1,9 +1,13 @@
 package com.thoughtworks.rslist.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.thoughtworks.rslist.domain.RsEvent;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -11,6 +15,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -57,6 +62,27 @@ class RsControllerTest {
                 .andExpect(jsonPath("$[1].eventName",is("第二条事件")))
                 .andExpect(jsonPath("$[1].keyWord",is("无标签")))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void should_add_rsEvent() throws Exception {
+        RsEvent rsEvent = new RsEvent("小猪佩奇","动画片");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonString = objectMapper.writeValueAsString(rsEvent);
+        mockMvc.perform(post("/rs/add").content(jsonString).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void should_update_rsEvent_byId(){
+
+
+    }
+
+
+    @Test
+    void should_delete_rsEvent_byIndex(){
+
     }
 
 
