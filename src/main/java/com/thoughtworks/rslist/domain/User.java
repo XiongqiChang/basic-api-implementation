@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
 public class User {
 
     @NotNull
-    @Size(max = 8)
+    @Size(max = 8,message = "年龄不能超过限制")
     private  String  userName;
 
     @NotNull
@@ -32,7 +32,7 @@ public class User {
     @Pattern(regexp = "1\\d{10}")
     private String phone;
 
-    public User(@NotNull @Size(max = 8) String userName, @NotNull @Min(18) @Max(100) Integer age, @NotNull String gender, @Email String email, @NotNull @Pattern(regexp = "1\\d{10}") String phone) {
+    public User(@NotNull @Size(max = 8, message = "年龄不能超过限制") String userName, @NotNull @Min(18) @Max(100) Integer age, @NotNull String gender, @Email String email, @NotNull @Pattern(regexp = "1\\d{10}") String phone) {
         this.userName = userName;
         this.age = age;
         this.gender = gender;

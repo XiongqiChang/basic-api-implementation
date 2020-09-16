@@ -1,13 +1,11 @@
 package com.thoughtworks.rslist.api;
 
 import com.thoughtworks.rslist.domain.User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -23,7 +21,10 @@ public class UserController {
 
     @PostMapping("/user")
     public void addUser(@RequestBody @Valid User user){
+        User userByUserName = getUserByUserName(user.getUserName());
+        if (userByUserName == null){
             userList.add(user);
+        }
     }
 
     @GetMapping("/user/list")
@@ -31,5 +32,15 @@ public class UserController {
         return  userList;
     }
 
+    public User getUserByUserName(String userName){
+        Iterator<User> iterator = userList.iterator();
+        while (iterator.hasNext()){
+            User next = iterator.next();
+            if (next.getUserName().equals(userName)) {
+                return next;
+            }
+        }
+        return null;
+    }
 
 }
