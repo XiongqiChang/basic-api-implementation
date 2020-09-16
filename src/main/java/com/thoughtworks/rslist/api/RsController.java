@@ -2,9 +2,12 @@ package com.thoughtworks.rslist.api;
 
 import com.thoughtworks.rslist.domain.RsEvent;
 import com.thoughtworks.rslist.domain.User;
+import com.thoughtworks.rslist.exception.Error;
+import com.thoughtworks.rslist.exception.RsEventNotValidException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,24 +35,26 @@ public class RsController {
   @GetMapping("/rs/list")
   public ResponseEntity getRsEventList(@RequestParam(value = "start",required = false)Integer start,
                                        @RequestParam(value = "end",required = false)Integer end){
-    if (start == null || end ==  null){
-      return ResponseEntity.ok(rsEventList);
-    }
-    return ResponseEntity.ok(rsEventList.subList(start-1,end));
+      if (start == null || end ==  null){
+          return ResponseEntity.ok(rsEventList);
+      }else if (start <= 0 || end >= rsEventList.size()){
+            throw  new RsEventNotValidException("invalid request param");
+        }
+      return ResponseEntity.ok(rsEventList.subList(start-1,end));
 
   }
 
 
    @GetMapping("/rs/{index}")
    public ResponseEntity getRsEventByIndex(@PathVariable(value = "index") Integer id){
-        if (id < 0 || id > rsEventList.size()){
-            throw new RuntimeException();
+        if (id <= 0 || id > rsEventList.size()){
+            throw new RsEventNotValidException("invalid index");
         }
         return ResponseEntity.ok(rsEventList.get(id - 1));
    }
 
 
-   @PostMapping("/rs")
+   @PostMapping("/rs/event")
    public ResponseEntity addRsEvent(@RequestBody @Validated RsEvent rsEvent){
 
        String userName = rsEvent.getUser().getUserName();
@@ -83,8 +88,8 @@ public class RsController {
 
     @DeleteMapping("/rs/delete/{index}")
     public void deleteRsEvent(@PathVariable Integer index){
-        if (index < 0 || index > rsEventList.size()){
-            throw new RuntimeException();
+        if (index <= 0 || index > rsEventList.size()){
+            throw new RsEventNotValidException("invalid index");
         }
 
         RsEvent rsEvent = rsEventList.get(index);
@@ -94,4 +99,7 @@ public class RsController {
             rsEventList.remove(index - 1);
         }
     }
+
+
+
 }
