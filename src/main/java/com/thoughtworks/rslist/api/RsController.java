@@ -2,12 +2,10 @@ package com.thoughtworks.rslist.api;
 
 import com.thoughtworks.rslist.domain.RsEvent;
 import com.thoughtworks.rslist.domain.User;
-import com.thoughtworks.rslist.exception.Error;
 import com.thoughtworks.rslist.exception.RsEventNotValidException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -41,10 +39,7 @@ public class RsController {
             throw  new RsEventNotValidException("invalid request param");
         }
       return ResponseEntity.ok(rsEventList.subList(start-1,end));
-
   }
-
-
    @GetMapping("/rs/{index}")
    public ResponseEntity getRsEventByIndex(@PathVariable(value = "index") Integer id){
         if (id <= 0 || id > rsEventList.size()){
@@ -73,8 +68,11 @@ public class RsController {
 
     @PutMapping("/rs/update/{index}")
     public void updateRsEvent(@PathVariable Integer index,
-                              @RequestBody @Valid RsEvent rsEvent){
+                              @RequestBody @Validated  RsEvent rsEvent){
 
+        if (index <= 0 || index > rsEventList.size()){
+            throw new RsEventNotValidException("invalid index");
+        }
         RsEvent rsEvent1 = rsEventList.get(index - 1);
         String eventName = rsEvent.getEventName();
         String keyWord = rsEvent.getKeyWord();
@@ -91,7 +89,6 @@ public class RsController {
         if (index <= 0 || index > rsEventList.size()){
             throw new RsEventNotValidException("invalid index");
         }
-
         RsEvent rsEvent = rsEventList.get(index);
         if (rsEvent == null){
             return;
@@ -99,7 +96,4 @@ public class RsController {
             rsEventList.remove(index - 1);
         }
     }
-
-
-
 }

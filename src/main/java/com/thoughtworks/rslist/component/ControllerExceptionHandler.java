@@ -2,13 +2,13 @@ package com.thoughtworks.rslist.component;
 
 import com.thoughtworks.rslist.exception.Error;
 import com.thoughtworks.rslist.exception.RsEventNotValidException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import javax.validation.ConstraintViolationException;
 
 /**
  * @Author: xqc
@@ -19,15 +19,17 @@ import javax.validation.ConstraintViolationException;
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
-    @ExceptionHandler({RsEventNotValidException.class, MethodArgumentNotValidException.class, BindException.class })
+
+    private Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
+    @ExceptionHandler({RsEventNotValidException.class, MethodArgumentNotValidException.class})
     public ResponseEntity rsExceptionHandler(Exception e){
         String errorMessage = "";
         if (e instanceof MethodArgumentNotValidException){
             errorMessage = "invalid param";
-        } else if (e instanceof BindException){
-            errorMessage = "invalid user";
-        }else  {
+            logger.error("我是一个RsController参数错误  " + errorMessage);
+        }else {
             errorMessage = e.getMessage();
+            logger.error("我是一个RsController运行错误  " + errorMessage);
         }
         Error error = new Error();
         error.setError(errorMessage);
