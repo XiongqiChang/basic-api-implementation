@@ -47,21 +47,21 @@ class UserControllerTest {
 
         mockMvc.perform(get("/user/list"))
                 .andExpect(jsonPath("$",hasSize(1)))
-                .andExpect(jsonPath("$[0].userName",is("xqc")))
-                .andExpect(jsonPath("$[0].age",is(18)))
-                .andExpect(jsonPath("$[0].gender",is("male")))
-                .andExpect(jsonPath("$[0].email",is("a@163.com")))
-                .andExpect(jsonPath("$[0].phone",is("18888888888")))
+                .andExpect(jsonPath("$[0].user_name",is("xqc")))
+                .andExpect(jsonPath("$[0].user_age",is(18)))
+                .andExpect(jsonPath("$[0].user_gender",is("male")))
+                .andExpect(jsonPath("$[0].user_email",is("a@163.com")))
+                .andExpect(jsonPath("$[0].user_phone",is("18888888888")))
                 .andExpect(status().isOk());
         mockMvc.perform(post("/user").content(userJsonString2).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated()).andExpect(header().string("index","1"));
         mockMvc.perform(get("/user/list"))
                 .andExpect(jsonPath("$",hasSize(2)))
-                .andExpect(jsonPath("$[1].userName",is("zmt")))
-                .andExpect(jsonPath("$[1].age",is(18)))
-                .andExpect(jsonPath("$[1].gender",is("male")))
-                .andExpect(jsonPath("$[1].email",is("a@163.com")))
-                .andExpect(jsonPath("$[1].phone",is("18888888888")))
+                .andExpect(jsonPath("$[1].user_name",is("zmt")))
+                .andExpect(jsonPath("$[1].user_age",is(18)))
+                .andExpect(jsonPath("$[1].user_gender",is("male")))
+                .andExpect(jsonPath("$[1].user_email",is("a@163.com")))
+                .andExpect(jsonPath("$[1].user_phone",is("18888888888")))
                 .andExpect(status().isOk());
         mockMvc.perform(post("/user").content(userJsonString).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated()).andExpect(header().string("index","1"));
