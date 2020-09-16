@@ -1,0 +1,46 @@
+package com.thoughtworks.rslist.api;
+
+import com.thoughtworks.rslist.domain.User;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+/**
+ * @Author: xqc
+ * @Date: 2020/9/16 - 09 - 16 - 11:40
+ * @Description: com.thoughtworks.rslist.api
+ * @version: 1.0
+ */
+@RestController
+public class UserController {
+
+    private List<User> userList = new ArrayList<>();
+
+    @PostMapping("/user")
+    public void addUser(@RequestBody @Valid User user){
+        User userByUserName = getUserByUserName(user.getUserName());
+        if (userByUserName == null){
+            userList.add(user);
+        }
+    }
+
+    @GetMapping("/user/list")
+    public  List<User> listUser(){
+        return  userList;
+    }
+
+    public User getUserByUserName(String userName){
+        Iterator<User> iterator = userList.iterator();
+        while (iterator.hasNext()){
+            User next = iterator.next();
+            if (next.getUserName().equals(userName)) {
+                return next;
+            }
+        }
+        return null;
+    }
+
+}
