@@ -3,6 +3,7 @@ package com.thoughtworks.rslist.api;
 import com.thoughtworks.rslist.domain.RsEvent;
 import com.thoughtworks.rslist.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,27 +31,27 @@ public class RsController {
 
 
   @GetMapping("/rs/list")
-  public  List<RsEvent> getRsEventList(@RequestParam(value = "start",required = false)Integer start,
+  public ResponseEntity getRsEventList(@RequestParam(value = "start",required = false)Integer start,
                                        @RequestParam(value = "end",required = false)Integer end){
     if (start == null || end ==  null){
-      return rsEventList;
+      return ResponseEntity.ok(rsEventList);
     }
-    return  rsEventList.subList(start-1,end);
+    return ResponseEntity.ok(rsEventList.subList(start-1,end));
 
   }
 
 
    @GetMapping("/rs/{index}")
-   public RsEvent getRsEventByIndex(@PathVariable(value = "index") Integer id){
+   public ResponseEntity getRsEventByIndex(@PathVariable(value = "index") Integer id){
         if (id < 0 || id > rsEventList.size()){
             throw new RuntimeException();
         }
-        return rsEventList.get(id - 1);
+        return ResponseEntity.ok(rsEventList.get(id - 1));
    }
 
 
    @PostMapping("/rs")
-   public void addRsEvent(@RequestBody @Validated RsEvent rsEvent){
+   public ResponseEntity addRsEvent(@RequestBody @Validated RsEvent rsEvent){
 
        String userName = rsEvent.getUser().getUserName();
        User user = userController.getUserByUserName(userName);
@@ -61,6 +62,8 @@ public class RsController {
            userController.addUser(rsEvent.getUser());
            rsEventList.add(rsEvent);
        }
+       String index = String.valueOf(rsEventList.size() - 1);
+       return  ResponseEntity.created(null).header("index",index).build();
     }
 
 

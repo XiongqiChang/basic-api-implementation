@@ -17,8 +17,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * @Author: xqc
@@ -43,7 +42,9 @@ class UserControllerTest {
         String userJsonString = objectMapper.writeValueAsString(user);
         String userJsonString2 = objectMapper.writeValueAsString(user2);
         mockMvc.perform(post("/user").content(userJsonString).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated())
+                .andExpect(header().string("index","0"));
+
         mockMvc.perform(get("/user/list"))
                 .andExpect(jsonPath("$",hasSize(1)))
                 .andExpect(jsonPath("$[0].userName",is("xqc")))
@@ -53,7 +54,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$[0].phone",is("18888888888")))
                 .andExpect(status().isOk());
         mockMvc.perform(post("/user").content(userJsonString2).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated()).andExpect(header().string("index","1"));
         mockMvc.perform(get("/user/list"))
                 .andExpect(jsonPath("$",hasSize(2)))
                 .andExpect(jsonPath("$[1].userName",is("zmt")))
@@ -63,7 +64,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$[1].phone",is("18888888888")))
                 .andExpect(status().isOk());
         mockMvc.perform(post("/user").content(userJsonString).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated()).andExpect(header().string("index","1"));
         mockMvc.perform(get("/user/list"))
                 .andExpect(jsonPath("$",hasSize(2)));
     }

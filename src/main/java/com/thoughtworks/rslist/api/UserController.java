@@ -1,6 +1,7 @@
 package com.thoughtworks.rslist.api;
 
 import com.thoughtworks.rslist.domain.User;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,11 +21,12 @@ public class UserController {
     private List<User> userList = new ArrayList<>();
 
     @PostMapping("/user")
-    public void addUser(@RequestBody @Valid User user){
+    public ResponseEntity addUser(@RequestBody @Valid User user){
         User userByUserName = getUserByUserName(user.getUserName());
         if (userByUserName == null){
             userList.add(user);
         }
+        return ResponseEntity.created(null).header("index",String.valueOf(userList.size() -1 )).build();
     }
 
     @GetMapping("/user/list")
@@ -42,5 +44,4 @@ public class UserController {
         }
         return null;
     }
-
 }
