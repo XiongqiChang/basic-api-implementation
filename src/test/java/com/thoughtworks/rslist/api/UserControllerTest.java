@@ -45,7 +45,7 @@ class UserControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(header().string("index","0"));
 
-        mockMvc.perform(get("/user/list"))
+        mockMvc.perform(get("/users"))
                 .andExpect(jsonPath("$",hasSize(1)))
                 .andExpect(jsonPath("$[0].user_name",is("xqc")))
                 .andExpect(jsonPath("$[0].user_age",is(18)))
@@ -55,7 +55,7 @@ class UserControllerTest {
                 .andExpect(status().isOk());
         mockMvc.perform(post("/user").content(userJsonString2).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated()).andExpect(header().string("index","1"));
-        mockMvc.perform(get("/user/list"))
+        mockMvc.perform(get("/users"))
                 .andExpect(jsonPath("$",hasSize(2)))
                 .andExpect(jsonPath("$[1].user_name",is("zmt")))
                 .andExpect(jsonPath("$[1].user_age",is(18)))
@@ -65,7 +65,7 @@ class UserControllerTest {
                 .andExpect(status().isOk());
         mockMvc.perform(post("/user").content(userJsonString).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated()).andExpect(header().string("index","1"));
-        mockMvc.perform(get("/user/list"))
+        mockMvc.perform(get("/users"))
                 .andExpect(jsonPath("$",hasSize(2)));
     }
 

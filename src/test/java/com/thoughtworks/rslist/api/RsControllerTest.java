@@ -72,7 +72,7 @@ class RsControllerTest {
                 .andExpect(jsonPath("$",hasSize(2)))
                 .andExpect(jsonPath("$[0].eventName",is("第一条事件")))
                 .andExpect(jsonPath("$[0].keyWord",is("无标签")))
-                .andExpect(jsonPath("$[0].user.userName",is("xqc")))
+                .andExpect(jsonPath("$[0].user.user_name",is("xqc")))
                 .andExpect(jsonPath("$[1].eventName",is("第二条事件")))
                 .andExpect(jsonPath("$[1].keyWord",is("无标签")))
                 .andExpect(jsonPath("$[1].user.user_name",is("xqc")))
@@ -108,7 +108,7 @@ class RsControllerTest {
         mockMvc.perform(get("/rs/2"))
                 .andExpect(jsonPath("$.eventName",is("第二条事件")))
                 .andExpect(jsonPath("$.keyWord",is("经济")))
-                .andExpect(jsonPath("$.user_name", is("xqc")))
+                .andExpect(jsonPath("$.user.user_name", is("xqc")))
                 .andExpect(status().isOk());
 
     }
@@ -124,7 +124,7 @@ class RsControllerTest {
         mockMvc.perform(get("/rs/3"))
                 .andExpect(jsonPath("$.eventName",is("猪肉涨价")))
                 .andExpect(jsonPath("$.keyWord",is("无标签")))
-                .andExpect(jsonPath("$.user_name", is("xqc")))
+                .andExpect(jsonPath("$.user.user_name", is("xqc")))
                 .andExpect(status().isOk());
     }
 
@@ -137,10 +137,10 @@ class RsControllerTest {
                 .andExpect(jsonPath("$",hasSize(2)))
                 .andExpect(jsonPath("$[0].eventName",is("第二条事件")))
                 .andExpect(jsonPath("$[0].keyWord",is("无标签")))
-                .andExpect(jsonPath("$[0].user_name", is("xqc")))
+                .andExpect(jsonPath("$[0].user.user_name", is("xqc")))
                 .andExpect(jsonPath("$[1].eventName",is("第三条事件")))
                 .andExpect(jsonPath("$[1].keyWord",is("无标签")))
-                .andExpect(jsonPath("$[1].user_name", is("xqc")))
+                .andExpect(jsonPath("$[1].user.user_name", is("xqc")))
                 .andExpect(status().isOk());
     }
 

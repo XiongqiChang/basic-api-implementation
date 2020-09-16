@@ -29,7 +29,7 @@ public class UserController {
         return ResponseEntity.created(null).header("index",String.valueOf(userList.size() -1 )).build();
     }
 
-    @GetMapping("/user/list")
+    @GetMapping("/users")
     public  List<User> listUser(){
         return  userList;
     }
