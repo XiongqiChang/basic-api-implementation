@@ -18,20 +18,21 @@ public class RsController {
     return  rsList;
   }
 
+
   @GetMapping("/rs/list")
   public  List<RsEvent> getRsEventList(@RequestParam(value = "start",required = false)Integer start,
                                        @RequestParam(value = "end",required = false)Integer end){
     if (start == null || end ==  null){
       return rsEventList;
     }
-    //subList这个方法是左闭右开的
+
     return  rsEventList.subList(start-1,end);
   }
 
 
    @GetMapping("/rs/{index}")
    public RsEvent getRsEventByIndex(@PathVariable(value = "index") Integer id){
-    return rsEventList.get(id - 1);
+        return rsEventList.get(id - 1);
    }
 
 
@@ -42,7 +43,7 @@ public class RsController {
 
     }
 
-    @PostMapping("/rs/update/{index}")
+    @PutMapping("/rs/update/{index}")
     public void updateRsEvent(@PathVariable Integer index,
                               @RequestBody RsEvent rsEvent){
 
@@ -59,11 +60,11 @@ public class RsController {
 
     @DeleteMapping("/rs/delete/{index}")
     public void deleteRsEvent(@PathVariable Integer index){
-         rsEventList.remove(index - 1);
+        RsEvent rsEvent = rsEventList.get(index);
+        if (rsEvent == null){
+            return;
+        }else{
+            rsEventList.remove(index - 1);
+        }
     }
-
-
-
-
-
 }
