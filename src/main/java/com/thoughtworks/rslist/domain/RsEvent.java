@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class RsEvent {
 
+    
     @NotNull
     private String eventName;
 
