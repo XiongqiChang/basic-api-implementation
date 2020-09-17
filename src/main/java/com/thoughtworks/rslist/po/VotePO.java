@@ -4,38 +4,37 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * @Author: xqc
- * @Date: 2020/9/17 - 09 - 17 - 16:25
+ * @Date: 2020/9/17 - 09 - 17 - 22:32
  * @Description: com.thoughtworks.rslist.po
  * @version: 1.0
  */
-@Entity
 @Data
-@Table(name = "rs_event")
+@Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RsEventPO {
+public class VotePO {
 
-    @GeneratedValue
     @Id
+    @GeneratedValue
     private int id;
 
-
-    @Column(name = "key_word")
-    private  String keyWord;
-
-    @Column(name = "event_name")
-    private String eventName;
-
     @Column(name = "vote_count")
-    private Integer voteCountNumber;
+    private Integer voteCount;
+
+    @Column(name = "create_time")
+    @CreationTimestamp
+    private Date createTime;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private UserPO userPO;
 
 

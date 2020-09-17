@@ -42,9 +42,13 @@ public class UserPO {
     @Column(name = "vote_num")
     private Integer voteNum;
 
+     public  UserPO(){}
 
-    public  UserPO(){}
-
-     @OneToMany(cascade = CascadeType.REMOVE,mappedBy = "userPO")
+     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "userPO")
      private List<RsEventPO> rsEventPOS;
+
+
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "userPO")
+    private List<VotePO> votePOS;
+
 }
