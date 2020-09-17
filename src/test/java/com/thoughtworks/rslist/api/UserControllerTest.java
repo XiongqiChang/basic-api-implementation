@@ -2,6 +2,8 @@ package com.thoughtworks.rslist.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.rslist.domain.User;
+import com.thoughtworks.rslist.po.UserPO;
+import com.thoughtworks.rslist.repository.UserRepository;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -32,6 +37,8 @@ class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     @Order(1)
@@ -120,6 +127,33 @@ class UserControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error",is("invalid user")));
     }
+
+    @Test
+    @Order(7)
+    @Transactional
+    void should_add_user_into_database(){
+        UserPO user = new UserPO("xqcc",18,"male","a@163.com","18888888889");
+        UserPO save = userRepository.save(user);
+        assertEquals(user,save);
+    }
+
+    @Test
+    @Order(8)
+    void should_delete_user_into_database_by_id(){
+        //UserPO user = new UserPO("xia",18,"male","a@163.com","18888888889");
+        userRepository.deleteById(2);
+        boolean b = userRepository.existsById(2);
+        assertEquals(false,b);
+    }
+
+    @Test
+    @Order(9)
+    void should_get_user_into_database_by_id(){
+        Optional<UserPO> byId = userRepository.findById(2);
+        assertNotNull(byId);
+
+    }
+
 
 
 }
