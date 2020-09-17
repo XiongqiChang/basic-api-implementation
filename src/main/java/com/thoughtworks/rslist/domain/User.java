@@ -45,7 +45,7 @@ public class User {
         this.email = email;
         this.phone = phone;
     }
-
     public User() {
+
     }
 }

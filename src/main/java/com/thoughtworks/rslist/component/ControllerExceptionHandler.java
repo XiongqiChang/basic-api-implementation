@@ -19,17 +19,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
-
     private Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
+
     @ExceptionHandler({RsEventNotValidException.class, MethodArgumentNotValidException.class})
     public ResponseEntity rsExceptionHandler(Exception e){
         String errorMessage = "";
         if (e instanceof MethodArgumentNotValidException){
             errorMessage = "invalid param";
-            logger.error("我是一个RsController参数错误  " + errorMessage);
+            logger.error("<<<<<<我是一个RsController参数错误  " + errorMessage +">>>>>>");
         }else {
             errorMessage = e.getMessage();
-            logger.error("我是一个RsController运行错误  " + errorMessage);
+            logger.error("<<<<<<我是一个RsController运行错误  " + errorMessage + ">>>>>>");
         }
         Error error = new Error();
         error.setError(errorMessage);

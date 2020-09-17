@@ -6,7 +6,7 @@ package com.thoughtworks.rslist.exception;
  * @Description: com.thoughtworks.rslist.exception
  * @version: 1.0
  */
-public class RsEventNotValidException extends  RuntimeException {
+public class RsEventNotValidException extends RuntimeException {
 
     private  String message;
 

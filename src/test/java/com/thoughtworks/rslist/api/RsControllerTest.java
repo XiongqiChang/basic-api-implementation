@@ -47,6 +47,7 @@ class RsControllerTest {
                 .andExpect(jsonPath("$[0].eventName",is("第一条事件")))
                 .andExpect(jsonPath("$[0].keyWord",is("无标签")))
                 .andExpect(jsonPath("$[0].user.user_name",is("xqc")))
+                //.andExpect(jsonPath("$[0].user",is("{user_name=xqc, user_age=18, user_gender=male, user_email=a@163.com, user_phone=18888888888}")))
                 .andExpect(jsonPath("$[1].eventName",is("第二条事件")))
                 .andExpect(jsonPath("$[1].keyWord",is("无标签")))
                 .andExpect(jsonPath("$[1].user.user_name",is("xqc")))
@@ -87,7 +88,7 @@ class RsControllerTest {
         User user = new User("xqc",18,"male","a@163.com","18888888888");
         RsEvent rsEvent = new RsEvent("猪肉涨价","经济",user);
         String jsonString = objectMapper.writeValueAsString(rsEvent);
-        mockMvc.perform(put("/rs/update/1").content(jsonString).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(put("/rs/event/1").content(jsonString).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
         mockMvc.perform(get("/rs/1"))
                 .andExpect(jsonPath("$.eventName",is("猪肉涨价")))
@@ -103,7 +104,7 @@ class RsControllerTest {
         User user = new User("xqc",18,"male","a@163.com","18888888888");
         RsEvent rsEvent = new RsEvent("","经济",user);
         String jsonString = objectMapper.writeValueAsString(rsEvent);
-        mockMvc.perform(put("/rs/update/2").content(jsonString).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(put("/rs/event/2").content(jsonString).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
         mockMvc.perform(get("/rs/2"))
                 .andExpect(jsonPath("$.eventName",is("第二条事件")))
@@ -119,7 +120,7 @@ class RsControllerTest {
         User user = new User("xqc",18,"male","a@163.com","18888888888");
         RsEvent rsEvent = new RsEvent("猪肉涨价","",user);
         String jsonString = objectMapper.writeValueAsString(rsEvent);
-        mockMvc.perform(put("/rs/update/3").content(jsonString).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(put("/rs/event/3").content(jsonString).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
         mockMvc.perform(get("/rs/3"))
                 .andExpect(jsonPath("$.eventName",is("猪肉涨价")))
@@ -132,7 +133,7 @@ class RsControllerTest {
     @Test
     //@Order(9)
     void should_delete_rsEvent_byIndex() throws Exception {
-        mockMvc.perform(delete("/rs/delete/1"))
+        mockMvc.perform(delete("/rs/event/1"))
                 .andExpect(status().isOk());
         mockMvc.perform(get("/rs/list"))
                 .andExpect(jsonPath("$",hasSize(2)))
@@ -207,5 +208,12 @@ class RsControllerTest {
     void should_throw_rsEvent_exception_out_of_start_and_end() throws Exception {
         mockMvc.perform(get("/rs/list?start=0&end=2")).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error",is("invalid request param")));
+    }
+
+    @Test
+    void should_throw_rsEvent_exception_out_of_index_when_delete() throws Exception {
+        mockMvc.perform(delete("/rs/event/0"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error",is("invalid index")));
     }
 }

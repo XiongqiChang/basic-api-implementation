@@ -60,7 +60,7 @@ public class UserController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity getUserException(MethodArgumentNotValidException e){
-        logger.error("我是一个UserController错误 : invalid user");
+        logger.error("<<<<<<我是一个UserController错误 : invalid user >>>>>>");
         Error error = new Error();
         error.setError("invalid user");
         return  ResponseEntity.badRequest().body(error);

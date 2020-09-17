@@ -8,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,8 +63,7 @@ public class RsController {
        return  ResponseEntity.created(null).header("index",index).build();
     }
 
-
-    @PutMapping("/rs/update/{index}")
+    @PutMapping("/rs/event/{index}")
     public void updateRsEvent(@PathVariable Integer index,
                               @RequestBody @Validated  RsEvent rsEvent){
 
@@ -84,7 +81,7 @@ public class RsController {
         }
     }
 
-    @DeleteMapping("/rs/delete/{index}")
+    @DeleteMapping("/rs/event/{index}")
     public void deleteRsEvent(@PathVariable Integer index){
         if (index <= 0 || index > rsEventList.size()){
             throw new RsEventNotValidException("invalid index");
