@@ -130,7 +130,6 @@ class UserControllerTest {
 
     @Test
     @Order(7)
-    @Transactional
     void should_add_user_into_database(){
         UserPO user = new UserPO("xqcc",18,"male","a@163.com","18888888889");
         UserPO save = userRepository.save(user);

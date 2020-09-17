@@ -19,7 +19,7 @@ public class UserPO {
     @Id
     private int id;
 
-    @Column(name = "username")
+    @Column(name = "user_name")
     private String userName;
 
     @Column(name = "age")
