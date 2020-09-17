@@ -38,14 +38,5 @@ public class User {
     @JsonProperty(value = "user_phone")
     private String phone;
 
-    public User(@NotNull @Size(max = 8, message = "年龄不能超过限制") String userName, @NotNull @Min(18) @Max(100) Integer age, @NotNull String gender, @Email String email, @NotNull @Pattern(regexp = "1\\d{10}") String phone) {
-        this.userName = userName;
-        this.age = age;
-        this.gender = gender;
-        this.email = email;
-        this.phone = phone;
-    }
-    public User() {
 
-    }
 }

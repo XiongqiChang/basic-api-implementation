@@ -32,11 +32,10 @@ public class UserController {
     private UserRepository userRepository;
 
 
-   private List<User> userList = new ArrayList<>();
 
-   @DeleteMapping("/user/{index}")
-   public ResponseEntity deleteById(@PathVariable int index){
-       userRepository.deleteById(index);
+   @DeleteMapping("/user/{id}")
+   public ResponseEntity deleteById(@PathVariable int id){
+       userRepository.deleteById(id);
        return ResponseEntity.ok("删除成功");
    }
 
@@ -47,7 +46,7 @@ public class UserController {
    }
 
 
-    @PostMapping("/user/jpa")
+    @PostMapping("/user")
     public ResponseEntity addUserByJpa(@RequestBody UserPO user){
         UserPO save = userRepository.save(user);
         if (save != null){
@@ -58,31 +57,6 @@ public class UserController {
 
     }
 
-
-    @PostMapping("/user")
-    public ResponseEntity addUser(@RequestBody @Valid User user){
-        User userByUserName = getUserByUserName(user.getUserName());
-        if (userByUserName == null){
-            userList.add(user);
-        }
-        return ResponseEntity.created(null).header("index",String.valueOf(userList.size() -1 )).build();
-    }
-
-    @GetMapping("/users")
-    public  List<User> listUser(){
-        return  userList;
-    }
-
-    public User getUserByUserName(String userName){
-        Iterator<User> iterator = userList.iterator();
-        while (iterator.hasNext()){
-            User next = iterator.next();
-            if (next.getUserName().equals(userName)) {
-                return next;
-            }
-        }
-        return null;
-    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity getUserException(MethodArgumentNotValidException e){

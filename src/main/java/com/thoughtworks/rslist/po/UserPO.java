@@ -1,8 +1,11 @@
 package com.thoughtworks.rslist.po;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @Author: xqc
@@ -13,9 +16,11 @@ import javax.persistence.*;
 @Data
 @Table(name = "user")
 @Entity
+@Builder
+@AllArgsConstructor
 public class UserPO {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Id
     private int id;
 
@@ -36,11 +41,6 @@ public class UserPO {
 
     public  UserPO(){}
 
-    public UserPO( String userName, Integer age, String gender, String email, String phone) {
-        this.userName = userName;
-        this.age = age;
-        this.gender = gender;
-        this.email = email;
-        this.phone = phone;
-    }
+     @OneToMany(cascade = CascadeType.REMOVE,mappedBy = "userPO")
+     private List<RsEventPO> rsEventPOS;
 }

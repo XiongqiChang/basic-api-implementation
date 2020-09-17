@@ -1,6 +1,7 @@
 package com.thoughtworks.rslist.domain;
 
-import javax.validation.Valid;
+import lombok.Data;
+
 import javax.validation.constraints.NotNull;
 
 /**
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotNull;
  * @version: 1.0
  */
 
+@Data
 public class RsEvent {
 
     @NotNull
@@ -19,56 +21,11 @@ public class RsEvent {
     private String keyWord;
 
     @NotNull
-    @Valid
-    private User user;
+    private Integer  userId;
 
-    public RsEvent(String eventName, String keyWord, User user) {
+    public RsEvent(@NotNull String eventName, @NotNull String keyWord, @NotNull Integer userId) {
         this.eventName = eventName;
         this.keyWord = keyWord;
-        this.user = user;
-    }
-
-    public RsEvent(String eventName, String keyWord){
-        this.eventName = eventName;
-        this.keyWord = keyWord;
-    }
-
-    public RsEvent(){
-
-    }
-
-    public String getEventName() {
-        return eventName;
-    }
-
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
-    }
-
-    public String getKeyWord() {
-        return keyWord;
-    }
-
-    public void setKeyWord(String keyWord) {
-        this.keyWord = keyWord;
-    }
-
-
-    public User getUser() {
-        return user;
-    }
-
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    @Override
-    public String toString() {
-        return "RsEvent{" +
-                "eventName='" + eventName + '\'' +
-                ", keyWord='" + keyWord + '\'' +
-                ", user=" + user +
-                '}';
+        this.userId = userId;
     }
 }
