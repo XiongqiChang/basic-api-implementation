@@ -1,6 +1,7 @@
 package com.thoughtworks.rslist.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.validation.constraints.*;
@@ -12,6 +13,7 @@ import javax.validation.constraints.*;
  * @version: 1.0
  */
 @Data
+@AllArgsConstructor
 public class User {
 
     @NotNull
@@ -37,6 +39,10 @@ public class User {
     @Pattern(regexp = "1\\d{10}")
     @JsonProperty(value = "user_phone")
     private String phone;
+
+    @NotNull
+    private Integer voteNum;
+
 
 
 }

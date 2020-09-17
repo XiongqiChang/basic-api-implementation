@@ -39,8 +39,27 @@ public class RsController {
             return ResponseEntity.ok().build();
         }
 
-
             return ResponseEntity.badRequest().build();
+    }
+
+    @PutMapping("/rs/{rsId}")
+    public ResponseEntity updateRsEvent(@PathVariable Integer rsId,@RequestBody RsEvent rsEvent){
+
+
+        RsEventPO rsEventPO = rsRepository.findById(rsId).get();
+
+       if (rsEventPO.getUserPO().getId() == rsEvent.getUserId()){
+           if (rsEvent.getKeyWord() != ""){
+               rsEventPO.setKeyWord(rsEvent.getKeyWord());
+           }else if (rsEvent.getKeyWord() != ""){
+               rsEventPO.setEventName(rsEvent.getEventName());
+           }
+           rsRepository.save(rsEventPO);
+           return  ResponseEntity.ok().build();
+       }else {
+           return ResponseEntity.badRequest().build();
+       }
+
     }
 
 }

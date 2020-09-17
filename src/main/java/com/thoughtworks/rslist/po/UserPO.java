@@ -39,6 +39,10 @@ public class UserPO {
     @Column(name = "phone")
     private String phone;
 
+    @Column(name = "vote_num")
+    private Integer voteNum;
+
+
     public  UserPO(){}
 
      @OneToMany(cascade = CascadeType.REMOVE,mappedBy = "userPO")

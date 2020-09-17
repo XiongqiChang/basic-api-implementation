@@ -11,10 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+
 import java.util.Optional;
 
 /**
@@ -35,26 +32,43 @@ public class UserController {
 
    @DeleteMapping("/user/{id}")
    public ResponseEntity deleteById(@PathVariable int id){
-       userRepository.deleteById(id);
-       return ResponseEntity.ok("删除成功");
+       if (userRepository.findById(id) != null){
+           userRepository.deleteById(id);
+           return ResponseEntity.ok("删除成功");
+       }else {
+           return ResponseEntity.badRequest().build();
+       }
    }
 
    @GetMapping("/user/{index}")
    public ResponseEntity getUserPOById(@PathVariable  int index){
       Optional<UserPO> userPO = userRepository.findById(index);
-      return ResponseEntity.ok(userPO.get());
+      if (userPO.get() != null){
+          return ResponseEntity.ok(userPO.get());
+      }else {
+          return ResponseEntity.badRequest().build();
+      }
+
    }
 
 
     @PostMapping("/user")
-    public ResponseEntity addUserByJpa(@RequestBody UserPO user){
-        UserPO save = userRepository.save(user);
-        if (save != null){
-            return ResponseEntity.ok("添加成功");
-        }else {
-            return  ResponseEntity.badRequest().body("返回失败");
-        }
+    public ResponseEntity addUserByJpa(@RequestBody User user){
 
+        if (userRepository.findUserPOByUserName(user.getUserName()) != null){
+            return ResponseEntity.badRequest().build();
+        }else{
+            UserPO userPO = UserPO.builder().userName(user.getUserName())
+                    .age(user.getAge())
+                    .gender(user.getGender())
+                    .age(user.getAge())
+                    .email(user.getEmail())
+                    .phone(user.getPhone())
+                    .voteNum(user.getVoteNum())
+                    .build();
+            userRepository.save(userPO);
+            return ResponseEntity.ok("添加成功");
+        }
     }
 
 

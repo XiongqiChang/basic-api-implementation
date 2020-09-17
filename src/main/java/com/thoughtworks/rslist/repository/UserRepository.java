@@ -12,6 +12,7 @@ import org.springframework.data.repository.CrudRepository;
 public interface UserRepository  extends CrudRepository<UserPO,Integer> {
 
 
+    UserPO  findUserPOByUserName(String userName);
 
 
 

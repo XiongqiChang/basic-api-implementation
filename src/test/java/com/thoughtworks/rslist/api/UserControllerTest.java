@@ -52,27 +52,26 @@ class UserControllerTest {
     @Test
     @Order(1)
     void should_delete_user_and_rsList() throws Exception {
-        mockMvc.perform(delete("/user/1")).andExpect(status().isOk());
+        mockMvc.perform(delete("/user/9")).andExpect(status().isOk());
     }
 
     @Test
     @Order(2)
     void should_add_user() throws Exception {
-        UserPO build = UserPO.builder().userName("xqc").phone("18888888888").gender("male").email("a@163.com").age(18).build();
+        User build = new User("zc",12,"femao","12@163.com","12345678911",10);
         String string = objectMapper.writeValueAsString(build);
         mockMvc.perform(post("/user").content(string).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
+
     @Test
-    @Order(3)
-    void should_delete_user() throws Exception {
-        UserPO build = UserPO.builder().userName("xqc").phone("18888888888").gender("male").email("a@163.com").age(18).build();
-        UserPO save = userRepository.save(build);
-        RsEventPO rsEventPO = RsEventPO.builder().keyWord("经济").eventName("张三").userPO(save).build();
+    @Order(4)
+    void should_add_user_has_exist() throws Exception {
+        User build = new User("xqc",12,"femao","12@163.com","12345678911",10);
         String string = objectMapper.writeValueAsString(build);
-        mockMvc.perform(delete("/user/{id}",save.getId()).content(string).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+        mockMvc.perform(post("/user").content(string).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
     }
 
 

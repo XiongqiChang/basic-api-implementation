@@ -17,6 +17,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.HeaderResultMatchers;
 
+import java.util.List;
+import java.util.Optional;
+
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -53,12 +56,16 @@ class RsControllerTest {
     @Order(1)
     void should_add_rsEvent_store_into_database() throws Exception {
 
-      /*  UserPO build1 = UserPO.builder().userName("zmt").age(18).email("xqc@163.com").phone("12345678911").gender("femal").build();
+       /* UserPO build1 = UserPO.builder().userName("zmt").age(18).email("xqc@163.com").phone("12345678911").gender("femal").build();
         UserPO save = userRepository.save(build1);*/
-        RsEvent rsEvent =new RsEvent("测试","这是一个测试",1);
+        RsEvent rsEvent =new RsEvent("测试","这是一个测试",9);
         String buildString = objectMapper.writeValueAsString(rsEvent);
         mockMvc.perform(post("/rs/event").content(buildString).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+     /*   List<RsEventPO> all = rsRepository.findAll();
+        assertEquals("测试",all.get(1).getEventName());
+        assertEquals("这是一个测试",all.get(1).getKeyWord());
+        assertEquals(save.getId(),all.get(1).getUserPO().getId());*/
     }
 
     @Test
@@ -73,4 +80,56 @@ class RsControllerTest {
 
     }
 
+
+
+
+    @Test
+    @Order(3)
+    void  should_update_rsEvent() throws Exception {
+
+        RsEvent rsEvent = new RsEvent("最新的热搜","最新新的关键字",11);
+        String jsonString = objectMapper.writeValueAsString(rsEvent);
+        mockMvc.perform(put("/rs/12").content(jsonString).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+        Optional<RsEventPO> byId = rsRepository.findById(12);
+        assertEquals("最新的热搜",byId.get().getEventName());
+    }
+
+
+
+    @Test
+    @Order(4)
+    void  should_update__userid_notMatch_rsEvent() throws Exception {
+
+        RsEvent rsEvent = new RsEvent("","最新新的关键字",9);
+        String jsonString = objectMapper.writeValueAsString(rsEvent);
+        mockMvc.perform(put("/rs/12").content(jsonString).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    @Order(5)
+    void  should_update_rsEvent_eventName_or_keyWord_isEmpty() throws Exception {
+
+        RsEvent rsEvent = new RsEvent("","特别新的关键字",11);
+        String jsonString = objectMapper.writeValueAsString(rsEvent);
+        mockMvc.perform(put("/rs/12").content(jsonString).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+        Optional<RsEventPO> byId = rsRepository.findById(12);
+        assertEquals("最新的热搜",byId.get().getEventName());
+    }
+
+
+    @Test
+    @Order(5)
+    void  should_vote_rsEvent() throws Exception {
+
+        RsEvent rsEvent = new RsEvent("","特别新的关键字",11);
+        String jsonString = objectMapper.writeValueAsString(rsEvent);
+        mockMvc.perform(put("/rs/12").content(jsonString).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+        Optional<RsEventPO> byId = rsRepository.findById(12);
+        assertEquals("最新的热搜",byId.get().getEventName());
+    }
 }
