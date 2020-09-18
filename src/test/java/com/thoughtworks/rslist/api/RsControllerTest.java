@@ -121,7 +121,7 @@ class RsControllerTest {
     @Order(6)
     void  should_vote_rsEvent() throws Exception {
 
-        Vote vote = new Vote(4,new Date(),15);
+        Vote vote = new Vote(4,new Date(),15,10);
         String jsonString = objectMapper.writeValueAsString(vote);
         mockMvc.perform(post("/rs/vote/16").content(jsonString).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -133,7 +133,7 @@ class RsControllerTest {
     @Order(7)
     void  should_vote_rsEvent_out_of_vote_num() throws Exception {
 
-        Vote vote = new Vote(15,new Date(),15);
+        Vote vote = new Vote(15,new Date(),15,10);
         String jsonString = objectMapper.writeValueAsString(vote);
         mockMvc.perform(post("/rs/vote/16").content(jsonString).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());

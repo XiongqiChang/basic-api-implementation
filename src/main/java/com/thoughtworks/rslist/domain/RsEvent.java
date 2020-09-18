@@ -1,7 +1,9 @@
 package com.thoughtworks.rslist.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
@@ -14,10 +16,11 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class RsEvent {
 
-
-    private int id;
+       private int id;
 
     @NotNull
     private String eventName;

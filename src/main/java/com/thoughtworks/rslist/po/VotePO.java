@@ -20,6 +20,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table
 public class VotePO {
 
     @Id
@@ -35,11 +36,11 @@ public class VotePO {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserPO userPO;
+    private UserPO user;
 
     @ManyToOne
     @JoinColumn(name = "rs_event_id")
-    private RsEventPO rsEventPO;
+    private RsEventPO rsEvent;
 
 
 }

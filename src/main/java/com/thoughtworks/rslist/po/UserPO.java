@@ -48,7 +48,7 @@ public class UserPO {
      private List<RsEventPO> rsEventPOS;
 
 
-    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "userPO")
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "user")
     private List<VotePO> votePOS;
 
 }

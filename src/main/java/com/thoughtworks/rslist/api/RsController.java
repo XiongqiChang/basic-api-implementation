@@ -72,7 +72,7 @@ public class RsController {
         Integer voteNum = userPO .getVoteNum();
         if (voteNum >= voteCount){
             VotePO build = VotePO.builder().createTime(vote.getCreateTime()).voteCount(voteCount)
-                    .userPO(userPO).build();
+                    .user(userPO).build();
             voteRepository.save(build);
             RsEventPO rsEventPO = rsRepository.findById(rsEventId).get();
             rsEventPO.setVoteCountNumber(voteCount + rsEventPO.getVoteCountNumber());
