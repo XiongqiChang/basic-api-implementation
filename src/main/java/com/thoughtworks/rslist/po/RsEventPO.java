@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @Author: xqc
@@ -38,5 +39,7 @@ public class RsEventPO {
     @ManyToOne
     private UserPO userPO;
 
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "rsEventPO")
+    private List<VotePO> votePOS;
 
 }

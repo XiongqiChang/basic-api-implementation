@@ -1,12 +1,9 @@
 package com.thoughtworks.rslist.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.rslist.domain.RsEvent;
-import com.thoughtworks.rslist.domain.User;
 import com.thoughtworks.rslist.domain.Vote;
 import com.thoughtworks.rslist.po.RsEventPO;
-import com.thoughtworks.rslist.po.UserPO;
 import com.thoughtworks.rslist.repository.RsRepository;
 import com.thoughtworks.rslist.repository.UserRepository;
 import org.junit.jupiter.api.*;
@@ -14,12 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.HeaderResultMatchers;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.*;
@@ -89,12 +83,12 @@ class RsControllerTest {
     @Order(3)
     void  should_update_rsEvent() throws Exception {
 
-        RsEvent rsEvent = new RsEvent("更高更新的测试例子","最新的",15);
+        RsEvent rsEvent = new RsEvent("特别被本更高更新的测试例子","最新的",15);
         String jsonString = objectMapper.writeValueAsString(rsEvent);
         mockMvc.perform(put("/rs/24").content(jsonString).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
         Optional<RsEventPO> byId = rsRepository.findById(24);
-        assertEquals("更高更新的测试例子",byId.get().getEventName());
+        assertEquals("特别被本更高更新的测试例子",byId.get().getEventName());
     }
 
 
@@ -135,5 +129,33 @@ class RsControllerTest {
     }
 
 
+    @Test
+    @Order(7)
+    void  should_vote_rsEvent_out_of_vote_num() throws Exception {
+
+        Vote vote = new Vote(15,new Date(),15);
+        String jsonString = objectMapper.writeValueAsString(vote);
+        mockMvc.perform(post("/rs/vote/16").content(jsonString).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    @Order(8)
+    void should_get_rsEvent_all() throws Exception {
+        mockMvc.perform(get("/rs/event"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].keyWord",is("这是一个测试")));
+
+    }
+
+    @Test
+    @Order(8)
+    void should_get_rsEvent_by_id() throws Exception {
+        mockMvc.perform(get("/rs/event/16"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.keyWord",is("这是一个测试")));
+
+    }
 
 }

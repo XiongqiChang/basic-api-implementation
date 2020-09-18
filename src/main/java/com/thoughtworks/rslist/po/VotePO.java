@@ -37,5 +37,9 @@ public class VotePO {
     @JoinColumn(name = "user_id")
     private UserPO userPO;
 
+    @ManyToOne
+    @JoinColumn(name = "rs_event_id")
+    private RsEventPO rsEventPO;
+
 
 }

@@ -52,13 +52,14 @@ class UserControllerTest {
     @Test
     @Order(1)
     void should_delete_user_and_rsList() throws Exception {
-        mockMvc.perform(delete("/user/9")).andExpect(status().isOk());
+        mockMvc.perform(delete("/user/9"))
+                .andExpect(status().isOk());
     }
 
     @Test
     @Order(2)
     void should_add_user() throws Exception {
-        User build = new User("zc",12,"femao","12@163.com","12345678911",10);
+        User build = new User("zmtxq",12,"female","12@163.com","12345678911",10);
         String string = objectMapper.writeValueAsString(build);
         mockMvc.perform(post("/user").content(string).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());

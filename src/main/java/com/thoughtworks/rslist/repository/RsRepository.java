@@ -15,4 +15,7 @@ public interface RsRepository extends CrudRepository<RsEventPO,Integer> {
 
     @Override
     List<RsEventPO> findAll();
+
+
+
 }

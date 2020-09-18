@@ -27,4 +27,5 @@ public class Vote {
 
     @NotNull
     private Integer userId;
+
 }
