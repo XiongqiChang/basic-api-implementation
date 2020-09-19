@@ -21,7 +21,7 @@ public class VoteController {
     private VoteService voteService;
 
 
-    @GetMapping("/voteRecord")
+    @GetMapping("/vote/voteRecord")
     public ResponseEntity<List<Vote>> getVoteRecord(@RequestParam Integer userId,
                                                     @RequestParam Integer rsEventId,
                                                     @RequestParam Integer pageIndex){
@@ -33,7 +33,7 @@ public class VoteController {
         return  ResponseEntity.ok(voteRecordByUserIdAndByRsId);
     }
 
-    @GetMapping("/getVote/{voteId}")
+    @GetMapping("/vote/{voteId}")
     public ResponseEntity<Vote> getVotePo(@PathVariable Integer voteId){
         if (voteId <= 0){
             return ResponseEntity.badRequest().build();
@@ -46,7 +46,7 @@ public class VoteController {
     }
 
 
-    @GetMapping("/records")
+    @GetMapping("/vote/records")
     public ResponseEntity<List<Vote>> getVoteByCreateTime(@RequestParam String  startTime,
                                                           @RequestParam String  endTime,
                                                           @RequestParam Integer pageIndex,
@@ -60,13 +60,13 @@ public class VoteController {
 
     }
 
-    @DeleteMapping("/vote/{id}")
-    public ResponseEntity deleteVoteById(@PathVariable Integer id){
-        Vote vote = voteService.findBVoteId(id);
+    @DeleteMapping("/vote/{voteId}")
+    public ResponseEntity deleteVoteById(@PathVariable Integer voteId){
+        Vote vote = voteService.findBVoteId(voteId);
         if (vote == null){
             return ResponseEntity.badRequest().build();
         }
-        voteService.deleteVoteById(id);
+        voteService.deleteVoteById(voteId);
         return ResponseEntity.ok().build();
     }
 

@@ -68,7 +68,7 @@ class VoControllerTest {
                     .rsEvent(rsEventPO).user(userPO).build());
         }
 
-        mockMvc.perform(get("/voteRecord").param("userId",String.valueOf(userPO.getId()))
+        mockMvc.perform(get("/vote/voteRecord").param("userId",String.valueOf(userPO.getId()))
                 .param("rsEventId",String.valueOf(rsEventPO.getId())).param("pageIndex","1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$",hasSize(5)))
@@ -80,7 +80,7 @@ class VoControllerTest {
                 .andExpect(jsonPath("$[3].voteCount",is(4)))
                 .andExpect(jsonPath("$[4].voteCount",is(5)));
 
-        mockMvc.perform(get("/voteRecord").param("userId",String.valueOf(userPO.getId()))
+        mockMvc.perform(get("/vote/voteRecord").param("userId",String.valueOf(userPO.getId()))
                 .param("rsEventId",String.valueOf(rsEventPO.getId())).param("pageIndex","2"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$",hasSize(5)))
@@ -102,7 +102,7 @@ class VoControllerTest {
             voteRepository.save(VotePO.builder().createTime(new Date()).voteCount(i+1)
                     .rsEvent(rsEventPO).user(userPO).build());
         }
-        mockMvc.perform(get("/records").param("startTime","2020-09-18 17:59")
+        mockMvc.perform(get("/vote/records").param("startTime","2020-09-18 17:59")
                 .param("endTime", "2020-09-20 18:19").param("pageIndex","1")
                 .param("pageSize","2"))
                 .andExpect(status().isOk())
@@ -117,7 +117,7 @@ class VoControllerTest {
 
         VotePO save = voteRepository.save(VotePO.builder().createTime(new Date()).voteCount( 1)
                 .rsEvent(rsEventPO).user(userPO).build());
-        mockMvc.perform(get("/getVote/"+save.getId()))
+        mockMvc.perform(get("/vote/"+save.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.rsEventId",is(rsEventPO.getId())))
                 .andExpect(jsonPath("$.userId",is(userPO.getId())))
@@ -131,7 +131,7 @@ class VoControllerTest {
                 .rsEvent(rsEventPO).user(userPO).build());
         mockMvc.perform(delete("/vote/"+save.getId()))
                 .andExpect(status().isOk());
-        mockMvc.perform(get("/getVote/"+save.getId()))
+        mockMvc.perform(get("/vote/"+save.getId()))
                 .andExpect(status().isBadRequest());
     }
 
