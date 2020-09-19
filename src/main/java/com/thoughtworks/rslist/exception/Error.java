@@ -1,7 +1,6 @@
 package com.thoughtworks.rslist.exception;
 
 import lombok.Data;
-
 /**
  * @Author: xqc
  * @Date: 2020/9/16 - 09 - 16 - 18:03

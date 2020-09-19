@@ -1,13 +1,10 @@
 package com.thoughtworks.rslist.repository;
 
-import com.thoughtworks.rslist.domain.Vote;
 import com.thoughtworks.rslist.po.VotePO;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,4 +26,5 @@ public interface VoteRepository extends PagingAndSortingRepository<VotePO,Intege
     List<VotePO> findAllByCreateTimeBetweenStartAndEnd(String  startTime, String  endTime,Pageable pageable);
 
 
+    List<VotePO> findAllByUserId(Integer userId);
 }

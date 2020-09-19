@@ -11,13 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.time.LocalDate;
 import java.util.Date;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -56,7 +53,7 @@ class VoControllerTest {
         userPO = userRepository.save(UserPO.builder().userName("xqc").age(12).gender("male")
                 .email("123@163.com").phone("12345678911").voteNum(10).build());
         rsEventPO = rsRepository.save(RsEventPO.builder().eventName("猪肉涨价")
-                .keyWord("经济").userPO(userPO).voteCountNumber(20).build());
+                .keyWord("经济").user(userPO).voteCountNumber(20).build());
 
 
     }

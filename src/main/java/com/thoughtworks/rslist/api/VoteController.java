@@ -63,4 +63,12 @@ public class VoteController {
         voteService.deleteVoteById(id);
         return ResponseEntity.ok().build();
     }
+
+
+    @GetMapping("/vote/user/{userId}")
+    public ResponseEntity getVoteByUserId(@PathVariable Integer userId){
+        List<Vote> voteListByUserId = voteService.getVoteListByUserId(userId);
+        return ResponseEntity.ok(voteListByUserId);
+
+    }
 }

@@ -17,5 +17,8 @@ public interface RsRepository extends CrudRepository<RsEventPO,Integer> {
     List<RsEventPO> findAll();
 
 
+    RsEventPO  findByEventName(String eventName);
 
+
+    List<RsEventPO> findByUserId(Integer userId);
 }

@@ -8,7 +8,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -74,5 +73,12 @@ public class VoteService {
 
     public void deleteVoteById(Integer id) {
         voteRepository.deleteById(id);
+    }
+
+
+    public List<Vote> getVoteListByUserId(Integer userId){
+        List<VotePO> allByUserId = voteRepository.findAllByUserId(userId);
+        List<Vote> votes = transferVotePoToVoteList(allByUserId);
+        return votes;
     }
 }

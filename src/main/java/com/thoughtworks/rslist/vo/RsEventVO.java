@@ -1,5 +1,6 @@
 package com.thoughtworks.rslist.vo;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -9,6 +10,7 @@ import lombok.Data;
  * @version: 1.0
  */
 @Data
+@Builder
 public class RsEventVO {
 
     private  Integer id;

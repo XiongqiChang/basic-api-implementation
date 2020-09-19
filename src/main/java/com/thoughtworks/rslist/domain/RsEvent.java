@@ -20,8 +20,6 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class RsEvent {
 
-       private int id;
-
     @NotNull
     private String eventName;
 
@@ -31,13 +29,10 @@ public class RsEvent {
     @NotNull
     private Integer  userId;
 
+    @NotNull
     private Integer voteCountNumber;
 
-    public RsEvent(String eventName,String keyWord,Integer userId){
-        this.eventName = eventName;
-        this.keyWord = keyWord;
-        this.userId = userId;
-    }
+
 
 
 

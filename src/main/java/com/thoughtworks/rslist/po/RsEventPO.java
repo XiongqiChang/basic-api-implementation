@@ -37,7 +37,7 @@ public class RsEventPO {
     private Integer voteCountNumber;
 
     @ManyToOne
-    private UserPO userPO;
+    private UserPO user;
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "rsEvent")
     private List<VotePO> votePOS;
