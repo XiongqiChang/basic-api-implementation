@@ -15,6 +15,7 @@ import java.util.Date;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -102,7 +103,7 @@ class VoControllerTest {
                     .rsEvent(rsEventPO).user(userPO).build());
         }
         mockMvc.perform(get("/records").param("startTime","2020-09-18 17:59")
-                .param("endTime", "2020-09-19 18:19").param("pageIndex","1")
+                .param("endTime", "2020-09-20 18:19").param("pageIndex","1")
                 .param("pageSize","2"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$",hasSize(2)))
@@ -116,12 +117,31 @@ class VoControllerTest {
 
         VotePO save = voteRepository.save(VotePO.builder().createTime(new Date()).voteCount( 1)
                 .rsEvent(rsEventPO).user(userPO).build());
-        int id = save.getId();
-
-        mockMvc.perform(get("/getVote").param("id",String.valueOf(id)))
+        mockMvc.perform(get("/getVote/"+save.getId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$",hasSize(1)))
+                .andExpect(jsonPath("$.rsEventId",is(rsEventPO.getId())))
+                .andExpect(jsonPath("$.userId",is(userPO.getId())))
                 .andExpect(jsonPath("$.voteCount",is(1)));
+    }
+
+    @Test
+    @Order(4)
+    void should_delete_vote_by_id() throws Exception {
+        VotePO save = voteRepository.save(VotePO.builder().createTime(new Date()).voteCount( 1)
+                .rsEvent(rsEventPO).user(userPO).build());
+        mockMvc.perform(delete("/vote/"+save.getId()))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/getVote/"+save.getId()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Order(5)
+    void should_return_bad_request() throws Exception {
+        VotePO save = voteRepository.save(VotePO.builder().createTime(new Date()).voteCount( 1)
+                .rsEvent(rsEventPO).user(userPO).build());
+        mockMvc.perform(delete("/vote/288"))
+                .andExpect(status().isBadRequest());
     }
 
 }

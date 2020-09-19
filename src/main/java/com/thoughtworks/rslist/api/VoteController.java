@@ -35,7 +35,13 @@ public class VoteController {
 
     @GetMapping("/getVote/{voteId}")
     public ResponseEntity<Vote> getVotePo(@PathVariable Integer voteId){
+        if (voteId <= 0){
+            return ResponseEntity.badRequest().build();
+        }
         Vote voteById = voteService.findBVoteId(voteId);
+        if (voteById == null){
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok().body(voteById);
     }
 
