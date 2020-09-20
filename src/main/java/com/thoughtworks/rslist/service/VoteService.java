@@ -3,10 +3,9 @@ package com.thoughtworks.rslist.service;
 import com.thoughtworks.rslist.domain.Vote;
 import com.thoughtworks.rslist.po.VotePO;
 import com.thoughtworks.rslist.repository.VoteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,11 +17,17 @@ import java.util.stream.Collectors;
  * @Description: com.thoughtworks.rslist.service
  * @version: 1.0
  */
-@Service
+
+@Configuration
 public class VoteService {
 
-    @Autowired
+
     private VoteRepository voteRepository;
+    public VoteService(VoteRepository voteRepository){
+        this.voteRepository = voteRepository;
+    }
+
+
 
     public List<Vote> getVoteRecordByUserIdAndByRsId(Integer userId, Integer rsEventId, Integer pageIndex){
 
@@ -35,6 +40,7 @@ public class VoteService {
         return getVoteListByUserIdAndByRsId;
 
     }
+
 
 
     public Vote findBVoteId(Integer id){
@@ -74,6 +80,7 @@ public class VoteService {
     public void deleteVoteById(Integer id) {
         voteRepository.deleteById(id);
     }
+
 
 
     public List<Vote> getVoteListByUserId(Integer userId){

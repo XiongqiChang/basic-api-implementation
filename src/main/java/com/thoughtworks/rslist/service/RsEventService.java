@@ -9,8 +9,7 @@ import com.thoughtworks.rslist.repository.RsRepository;
 import com.thoughtworks.rslist.repository.UserRepository;
 import com.thoughtworks.rslist.repository.VoteRepository;
 import com.thoughtworks.rslist.vo.RsEventVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,14 +21,19 @@ import java.util.stream.Collectors;
  * @Description: com.thoughtworks.rslist.service
  * @version: 1.0
  */
-@Service
-public class RsEventService {
-    @Autowired
-    private RsRepository rsRepository;
-    @Autowired
+@Configuration
+ public class RsEventService {
+
+    private  RsRepository rsRepository;
     private UserRepository userRepository;
-    @Autowired
     private VoteRepository voteRepository;
+
+
+    public RsEventService(RsRepository rsRepository,UserRepository userRepository ,VoteRepository voteRepository){
+        this.rsRepository = rsRepository;
+        this.userRepository = userRepository;
+        this.voteRepository = voteRepository;
+    }
 
     public boolean addRsEvent(RsEvent rsEvent) {
         String eventName = rsEvent.getEventName();
@@ -68,12 +72,14 @@ public class RsEventService {
     }
 
 
+
     public List<RsEventVO> getRsEventAll() {
         List<RsEventPO> all = rsRepository.findAll();
         List<RsEventVO> collect = all.stream().map(item -> RsEventVO.builder().id(item.getId()).eventName(item.getEventName())
                 .keyWord(item.getKeyWord()).voteCountNumber(item.getVoteCountNumber()).build()).collect(Collectors.toList());
         return collect;
     }
+
 
     public RsEventVO getRsEventById(Integer id) {
         Optional<RsEventPO> getRsEventPo = rsRepository.findById(id);
@@ -87,6 +93,7 @@ public class RsEventService {
         }
     }
 
+
     public boolean deleteRsEventById(Integer id) {
         Optional<RsEventPO> byId = rsRepository.findById(id);
         if (!byId.isPresent()) {
@@ -97,6 +104,7 @@ public class RsEventService {
         }
 
     }
+
 
     public boolean voteForRsEvent(Vote vote, Integer rsEventId) {
 

@@ -2,7 +2,6 @@ package com.thoughtworks.rslist.api;
 
 import com.thoughtworks.rslist.domain.Vote;
 import com.thoughtworks.rslist.service.VoteService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,9 +16,12 @@ import java.util.List;
 @RestController
 public class VoteController {
 
-    @Autowired
+
     private VoteService voteService;
 
+    public VoteController(VoteService voteService){
+        this.voteService = voteService;
+    }
 
     @GetMapping("/vote/voteRecord")
     public ResponseEntity<List<Vote>> getVoteRecord(@RequestParam Integer userId,

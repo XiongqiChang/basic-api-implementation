@@ -103,7 +103,7 @@ class VoControllerTest {
                     .rsEvent(rsEventPO).user(userPO).build());
         }
         mockMvc.perform(get("/vote/records").param("startTime","2020-09-18 17:59")
-                .param("endTime", "2020-09-20 18:19").param("pageIndex","1")
+                .param("endTime", "2020-09-22 18:19").param("pageIndex","1")
                 .param("pageSize","2"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$",hasSize(2)))

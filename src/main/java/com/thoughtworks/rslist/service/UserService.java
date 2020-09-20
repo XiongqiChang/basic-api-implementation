@@ -4,8 +4,7 @@ import com.thoughtworks.rslist.domain.User;
 import com.thoughtworks.rslist.po.UserPO;
 import com.thoughtworks.rslist.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,11 +16,15 @@ import java.util.stream.Collectors;
  * @Description: com.thoughtworks.rslist.service
  * @version: 1.0
  */
-@Service
+@Configuration
 public class UserService {
 
-    @Autowired
     private UserRepository userRepository;
+
+    public UserService(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
+
 
     public boolean updateUserPOById(Integer id, User user){
         if (!userRepository.findById(id).isPresent()){
@@ -51,9 +54,11 @@ public class UserService {
     }
 
 
+
     public void deleteById(Integer id){
         userRepository.deleteById(id);
     }
+
 
 
     public User findById(Integer id){
@@ -69,6 +74,7 @@ public class UserService {
         return  userBuilder;
 
     }
+
 
 
     public List<User> getUserLists(){
